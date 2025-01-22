@@ -1,23 +1,33 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.main-box {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar Styles */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #333;
+  background: #333;
   color: #fff;
 }
 
 .navbar .logo a {
-  text-decoration: none;
   color: #fff;
+  text-decoration: none;
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -29,19 +39,78 @@ body {
 }
 
 .nav-links a {
+  color: #fff;
   text-decoration: none;
-  color: #fff;
-  font-size: 1rem;
+  transition: color 0.3s;
 }
 
+.nav-links a:hover {
+  color: #ff5733;
+}
+
+/* Hamburger Styles */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+}
+
+/* Section Styles */
 section {
-  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  padding: 2rem;
 }
 
+/* Landing Page */
+.landing {
+  height: 100vh;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  color: #333;
+}
+
+/* About Section */
+.about {
+  padding: 4rem 2rem;
+  background: #fff;
+  color: #444;
+}
+
+/* Menu Section */
+.menu {
+  height: 100vh;
+  background: linear-gradient(45deg, #fbc2eb, #a6c1ee);
+  color: #333;
+}
+
+/* Contact Section */
+.contact {
+  height: 100vh;
+  background: #f4f4f4;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid #000; /* Black Box Around the Section */
+}
+
+/* Footer */
 footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #333;
+  height: 50vh;
+  background: #333;
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
