@@ -1,92 +1,47 @@
-/* Reset default margins and paddings */
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    scroll-behavior: smooth;
-  }
-  
-  /* Main container */
-  .main-box {
-    width: 100%;
-  }
-  
-  /* Navbar styling */
-  .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    z-index: 1000;
-  }
-  
-  .navbar .logo a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.5rem;
-  }
-  
-  .navbar .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-  }
-  
-  .navbar .nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 5px 10px;
-  }
-  
-  .navbar .nav-links li a:hover {
-    background-color: #575757;
-    border-radius: 5px;
-  }
-  
-  /* Landing section */
-  .landing {
-    height: 100vh;
-    background: linear-gradient(135deg, #6b6bff, #a1c4fd);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .landing h1 {
-    font-size: 3rem;
-  }
-  
-  .landing p {
-    font-size: 1.2rem;
-    margin-top: 10px;
-  }
-  
-  /* About section */
-  .about {
-    height: 100vh;
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .about h2 {
-    font-size: 2.5rem;
-  }
-  
-  .about p {
-    font-size: 1.2rem;
-    margin-top: 10px;
-  }
-  
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar .logo a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+}
+
+section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+}
