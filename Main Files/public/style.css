@@ -114,12 +114,75 @@ section {
   /* background: linear-gradient(45deg, #ff9a9e, #fad0c4); */
   color: #333;
 }
+/* End of landing page css */
+
+/*  */
+/*  */
 
 /* About Section */
+
+
 .about {
-  padding: 4rem 2rem;
-  background: #fff;
-  color: #444;
+  text-align: center;
+  padding: 2rem;
+  background-color: #eaf5ed;
+  border-radius: 20px;
+  width: 90%;
+  margin: 2rem auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about h2 {
+  font-size: 2.5rem;
+  color: #1c2534;
+  margin-bottom: 2rem;
+}
+
+.specials-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.special-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.special-box h3 {
+  font-size: 1.5rem;
+  color: #2d6a4f;
+  margin-bottom: 1rem;
+}
+
+.special-box p {
+  color: #606770;
+}
+
+.special-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .specials-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .special-box {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
 }
 
 /* Menu Section */
