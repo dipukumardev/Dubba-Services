@@ -1,0 +1,14 @@
+{
+    "version": 2,
+    "routes": [
+      {
+        "src": "/Signup/sign.html",
+        "dest": "/public/Signup/sign.html"
+      },
+      {
+        "src": "/Login/login.html",
+        "dest": "/public/Login/login.html"
+      }
+    ]
+  }
+  
