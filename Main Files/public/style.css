@@ -123,11 +123,13 @@ section {
 
 
 .about {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   padding: 2rem;
   background-color: #eaf5ed;
   border-radius: 20px;
-  width: 90%;
+  width: 100%;
   margin: 2rem auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
