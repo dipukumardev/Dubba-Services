@@ -7,9 +7,10 @@ const app = express();
 app.use(express.static('public'));
 
 // Route for the signup page
-app.get('/public/Signup/sign.html', (req, res) => {
+app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Signup', 'sign.html'));
 });
+
 
 // Route for the login page
 app.get('/public/Login/login.html', (req, res) => {
