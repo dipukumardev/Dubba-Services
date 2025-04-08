@@ -449,7 +449,7 @@
     }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
   <!-- Navigation -->
   <nav class="navbar">
     <div class="container">
@@ -733,6 +733,19 @@
   </footer>
 
   <script>
+
+    // Desible the code form the inpect section;add  one linecode in upper bodytag:
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+  if (e.key === "F12" || 
+      (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) || 
+      (e.ctrlKey && e.key === "U")) {
+    return false;
+  }
+};
+// end of the inspect code;
+
+
     document.addEventListener('DOMContentLoaded', function() {
       // Check if user is logged in
       const isLoggedIn = localStorage.getItem('dubbaBayLoggedIn') === 'true';
