@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dubba Services - Cloud Kitchen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Hero Section */
+    .hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/images/food-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+      background-color: var(--light-color);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .feature-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    /* Menu Showcase */
+    .menu-showcase {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--dark-color);
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      color: var(--gray-color);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .menu-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+
+    .menu-image {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .menu-details {
+      padding: 20px;
+    }
+
+    .menu-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--dark-color);
+    }
+
+    .menu-desc {
+      color: var(--gray-color);
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+
+    .menu-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-price {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* Subscription Plans */
+    .subscriptions {
+      padding: 80px 0;
+      background-color: var(--light-color);
+    }
+
+    .plan-cards {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .plan-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: var(--box-shadow);
+      flex: 1;
+      max-width: 350px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card.featured {
+      transform: scale(1.05);
+      border: 2px solid var(--primary-color);
+    }
+
+    .featured-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 8px 15px;
+      font-size: 0.8rem;
+      transform: translateX(30%) translateY(-0%) rotate(45deg);
+      width: 150px;
+      text-align: center;
+    }
+
+    .plan-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--dark-color);
+    }
+
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .plan-price span {
+      font-size: 1rem;
+      color: var(--gray-color);
+    }
+
+    .plan-features {
+      margin-bottom: 30px;
+    }
+
+    .plan-features li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-light-color);
+      color: var(--dark-color);
+    }
+
+    .plan-features li:last-child {
+      border-bottom: none;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .testimonial-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: var(--box-shadow);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+      color: var(--dark-color);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+
+    .author-name {
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+
+    .author-title {
+      font-size: 0.9rem;
+      color: var(--gray-color);
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 100px 0;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/images/delivery.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+      font-size: 1.1rem;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: var(--dark-color);
+      color: white;
+      padding: 60px 0 20px 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .footer-heading {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-links a {
+      display: block;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      background-color: var(--primary-color);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .features-grid,
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .plan-cards {
+        flex-wrap: wrap;
+      }
+
+      .plan-card {
+        min-width: 280px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-grid,
+      .testimonial-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* Navigation */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background-color: var(--dark-color);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .logo span {
+      color: var(--primary-color);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+    }
+
+    .mobile-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--dark-color);
+        flex-direction: column;
+        padding: 100px 30px;
+        transition: right 0.3s ease;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .mobile-toggle {
+        display: block;
+        z-index: 1001;
+      }
+
+      .logo {
+        z-index: 1001;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="#" class="logo"><span>Dubba</span> Services</a>
+
+      <div class="mobile-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#plans">Plans</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="./Login/login.html" class="btn btn-primary">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Fresh Homemade Meals Delivered Daily</h1>
+      <p>Experience the comfort of home-cooked food with Dubba Services. We deliver fresh, nutritious, and delicious meals right to your doorstep every day.</p>
+      <div class="language-switcher" style="justify-content: center;">
+        <button type="button" class="active" data-lang="en">English</button>
+        <span>|</span>
+        <button type="button" data-lang="hi">हिन्दी</button>
+      </div>
+      <a href="/Signup/signup.html" class="btn btn-primary">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Why Choose Us?</h2>
+        <p>Dubba Services is committed to providing high-quality meals with convenient delivery options. Here's why customers love our service:</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <h3>Fresh & Homemade</h3>
+          <p>Our meals are prepared fresh daily using high-quality ingredients and authentic recipes.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-truck"></i>
+          </div>
+          <h3>Timely Delivery</h3>
+          <p>We deliver your meals right on time, whether it's breakfast, lunch, or dinner.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3>Flexible Plans</h3>
+          <p>Choose from daily, weekly, or monthly subscription plans to suit your needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Showcase -->
+  <section class="menu-showcase" id="menu">
+    <div class="container">
+      <div class="section-title">
+        <h2>Our Menu</h2>
+        <p>Explore our diverse menu offerings with a perfect blend of traditional and contemporary dishes.</p>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-card">
+          <img src="https://source.unsplash.com/random/600x400/?indian,breakfast" alt="Breakfast" class="menu-image">
+          <div class="menu-details">
+            <h3 class="menu-title">Breakfast</h3>
+            <p class="menu-desc">Start your day with our nutritious and delicious breakfast options including South Indian specialties, parathas, and more.</p>
+            <div class="menu-meta">
+              <span class="menu-price">₹80 - ₹120</span>
+              <span><i class="fas fa-clock"></i> 7AM - 9AM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <img src="https://source.unsplash.com/random/600x400/?curry,indian" alt="Lunch" class="menu-image">
+          <div class="menu-details">
+            <h3 class="menu-title">Lunch</h3>
+            <p class="menu-desc">Enjoy a satisfying lunch with our variety of curries, rice, rotis, and sides that change daily.</p>
+            <div class="menu-meta">
+              <span class="menu-price">₹120 - ₹150</span>
+              <span><i class="fas fa-clock"></i> 12PM - 2PM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <img src="https://source.unsplash.com/random/600x400/?biryani,indian" alt="Dinner" class="menu-image">
+          <div class="menu-details">
+            <h3 class="menu-title">Dinner</h3>
+            <p class="menu-desc">Complete your day with our hearty dinner options including biryanis, paneer dishes, and regional specialties.</p>
+            <div class="menu-meta">
+              <span class="menu-price">₹150 - ₹200</span>
+              <span><i class="fas fa-clock"></i> 7PM - 9PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscription Plans -->
+  <section class="subscriptions" id="plans">
+    <div class="container">
+      <div class="section-title">
+        <h2>Subscription Plans</h2>
+        <p>Choose a plan that fits your lifestyle and enjoy hassle-free meal deliveries.</p>
+      </div>
+
+      <div class="plan-cards">
+        <div class="plan-card">
+          <div class="plan-name">Daily Plan</div>
+          <div class="plan-price">₹150<span>/day</span></div>
+          <ul class="plan-features">
+            <li>1 Meal per day</li>
+            <li>Choose any meal time</li>
+            <li>No long-term commitment</li>
+            <li>Pay as you go</li>
+          </ul>
+          <a href="signup.html" class="btn btn-outline">Get Started</a>
+        </div>
+
+        <div class="plan-card featured">
+          <div class="featured-tag">Most Popular</div>
+          <div class="plan-name">Weekly Plan</div>
+          <div class="plan-price">₹900<span>/week</span></div>
+          <ul class="plan-features">
+            <li>7 Meals per week</li>
+            <li>Choose any meal time</li>
+            <li>10% discount on additional meals</li>
+            <li>Weekly menu customization</li>
+          </ul>
+          <a href="signup.html" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-name">Monthly Plan</div>
+          <div class="plan-price">₹3200<span>/month</span></div>
+          <ul class="plan-features">
+            <li>30 Meals per month</li>
+            <li>Choose any meal time</li>
+            <li>15% discount on additional meals</li>
+            <li>Priority delivery</li>
+          </ul>
+          <a href="signup.html" class="btn btn-outline">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>What Our Customers Say</h2>
+        <p>Don't just take our word for it. Here's what our happy customers have to say about Dubba Services.</p>
+      </div>
+
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I've been using Dubba Services for the past 3 months and I'm extremely satisfied with their food quality and service. The meals are always delivered on time and taste just like home-cooked food."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rajiv Kumar" class="author-avatar">
+            <div>
+              <div class="author-name">Rajiv Kumar</div>
+              <div class="author-title">Software Engineer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">"As a busy professional, Dubba Services has been a lifesaver. I love the flexibility of their subscription plans and the variety in their menu. The food is always fresh and delicious."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Singh" class="author-avatar">
+            <div>
+              <div class="author-name">Priya Singh</div>
+              <div class="author-title">Marketing Manager</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">"What I love most about Dubba Services is the consistency. Whether it's breakfast, lunch, or dinner, the food quality and taste are always excellent. Their monthly subscription plan offers great value for money."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Amit Sharma" class="author-avatar">
+            <div>
+              <div class="author-name">Amit Sharma</div>
+              <div class="author-title">Bank Manager</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">"I highly recommend Dubba Services to anyone looking for healthy and tasty homemade food delivered to their doorstep. Their customer service is excellent, and they're always responsive to feedback."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Neha Joshi" class="author-avatar">
+            <div>
+              <div class="author-name">Neha Joshi</div>
+              <div class="author-title">School Teacher</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to Enjoy Delicious Meals?</h2>
+      <p>Sign up today and get your first meal free! Experience the convenience and quality of Dubba Services.</p>
+      <a href="signup.html" class="btn btn-primary">Sign Up Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3 class="footer-heading">Dubba Services</h3>
+          <p>Delivering fresh, homemade meals to your doorstep every day.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">Quick Links</h3>
+          <div class="footer-links">
+            <a href="home.html">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#plans">Plans</a>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">Contact Us</h3>
+          <div class="footer-links">
+            <a href="tel:+919876543210"><i class="fas fa-phone"></i> +91 9876543210</a>
+            <a href="mailto:info@dubbaservices.com"><i class="fas fa-envelope"></i> info@dubbaservices.com</a>
+            <a href="#"><i class="fas fa-map-marker-alt"></i> 123 Main Street, Mumbai, Maharashtra 400001</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">Business Hours</h3>
+          <div class="footer-links">
+            <a href="#">Monday - Friday: 7:00 AM - 9:00 PM</a>
+            <a href="#">Saturday - Sunday: 7:00 AM - 10:00 PM</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2025 Dubba Services. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const isLoggedIn = localStorage.getItem('dubbaBayLoggedIn') === 'true';
+      const loginBtn = document.querySelector('.nav-links a.btn');
+
+      if (isLoggedIn) {
+        const userRole = localStorage.getItem('dubbaBayUserRole');
+        loginBtn.textContent = 'My Account';
+
+        if (userRole === 'admin') {
+          loginBtn.href = 'dashboard.html';
+        } else if (userRole === 'customer') {
+          loginBtn.href = 'customer-dashboard.html';
+        } else if (userRole === 'delivery') {
+          loginBtn.href = 'delivery-dashboard.html';
+        }
+      }
+
+      // Mobile menu toggle
+      const mobileToggle = document.querySelector('.mobile-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      mobileToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('active');
+
+        if (navLinks.classList.contains('active')) {
+          mobileToggle.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+          mobileToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+
+      // Navbar scroll effect
+      window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+
+        if (window.scrollY > 50) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // Language switching
+      const langButtons = document.querySelectorAll('.language-switcher button');
+
+      langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+
+          // Update active button
+          langButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+
+          // In a real app, this would switch the language
+          alert(`Language switched to ${lang === 'en' ? 'English' : 'Hindi'}`);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard - Dubba Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .meal-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid var(--gray-light-color);
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: var(--primary-color);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    .meal-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .meal-card {
+      display: flex;
+      border: 1px solid var(--gray-light-color);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .meal-image {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    .meal-details {
+      padding: 15px;
+      flex: 1;
+    }
+
+    .meal-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .meal-description {
+      color: var(--gray-color);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .meal-meta {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .meal-meta i {
+      margin-right: 5px;
+      color: var(--primary-color);
+    }
+
+    .meal-meta span {
+      margin-right: 15px;
+    }
+
+    .meal-status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .meal-status.scheduled {
+      background-color: rgba(91, 55, 183, 0.1);
+      color: var(--accent-color);
+    }
+
+    .meal-status.delivered {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: var(--success-color);
+    }
+
+    .subscription-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .subscription-badge {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-right: 15px;
+    }
+
+    .subscription-balance {
+      font-weight: 600;
+    }
+
+    .low-balance {
+      color: var(--danger-color);
+    }
+
+    .recharge-btn {
+      margin-left: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <span class="text-primary">Dubba</span> Services
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item active">
+          <i class="fas fa-home"></i> Dashboard
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-utensils"></i> My Meals
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-history"></i> Order History
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-credit-card"></i> Subscription
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-cog"></i> Settings
+        </div>
+        <div class="sidebar-menu-item" id="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="language-switcher">
+        <button type="button" class="active" data-lang="en">English</button>
+        <span>|</span>
+        <button type="button" data-lang="hi">हिन्दी</button>
+      </div>
+
+      <div id="content-en" class="lang-content active">
+        <div class="content-header">
+          <h1 class="content-title">My Dashboard</h1>
+          <div class="subscription-info">
+            <div class="subscription-badge">Monthly Plan</div>
+            <div class="subscription-balance">Remaining Meals: <span id="meal-balance" class="low-balance">3</span></div>
+            <button class="btn btn-outline recharge-btn">Recharge Now</button>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">
+            <h2>Today's Meals</h2>
+            <span id="today-date"></span>
+          </div>
+          <div class="card-body">
+            <div class="meal-toggle" id="breakfast-toggle">
+              <div>
+                <h3>Breakfast</h3>
+                <p>7:00 AM - 9:00 AM</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="meal-toggle" id="lunch-toggle">
+              <div>
+                <h3>Lunch</h3>
+                <p>12:00 PM - 2:00 PM</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="meal-toggle" id="dinner-toggle">
+              <div>
+                <h3>Dinner</h3>
+                <p>7:00 PM - 9:00 PM</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="card-footer">
+            <p><i class="fas fa-info-circle"></i> You can turn meals ON or OFF until 8:00 PM the previous day.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Today's Menu</h2>
+          </div>
+          <div class="card-body">
+            <div class="meal-card">
+              <img src="https://source.unsplash.com/random/120x120/?breakfast,indian" alt="Breakfast" class="meal-image">
+              <div class="meal-details">
+                <span class="meal-status delivered">Delivered at 8:15 AM</span>
+                <h3 class="meal-title">Masala Dosa with Sambar</h3>
+                <p class="meal-description">South Indian crispy dosa served with sambar and coconut chutney.</p>
+                <div class="meal-meta">
+                  <span><i class="fas fa-utensils"></i> Breakfast</span>
+                  <span><i class="fas fa-leaf"></i> Vegetarian</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="meal-card">
+              <img src="https://source.unsplash.com/random/120x120/?lunch,indian" alt="Lunch" class="meal-image">
+              <div class="meal-details">
+                <span class="meal-status scheduled">Scheduled for 12:30 PM</span>
+                <h3 class="meal-title">Paneer Butter Masala with Naan</h3>
+                <p class="meal-description">Cottage cheese in rich tomato gravy served with butter naan.</p>
+                <div class="meal-meta">
+                  <span><i class="fas fa-utensils"></i> Lunch</span>
+                  <span><i class="fas fa-leaf"></i> Vegetarian</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="meal-card">
+              <img src="https://source.unsplash.com/random/120x120/?dinner,indian" alt="Dinner" class="meal-image">
+              <div class="meal-details">
+                <span class="meal-status scheduled">Scheduled for 8:00 PM</span>
+                <h3 class="meal-title">Chicken Biryani</h3>
+                <p class="meal-description">Fragrant basmati rice cooked with tender chicken pieces and aromatic spices.</p>
+                <div class="meal-meta">
+                  <span><i class="fas fa-utensils"></i> Dinner</span>
+                  <span><i class="fas fa-drumstick-bite"></i> Non-Vegetarian</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="content-hi" class="lang-content" style="display: none;">
+        <div class="content-header">
+          <h1 class="content-title">मेरा डैशबोर्ड</h1>
+          <div class="subscription-info">
+            <div class="subscription-badge">मासिक योजना</div>
+            <div class="subscription-balance">शेष भोजन: <span id="meal-balance-hi" class="low-balance">3</span></div>
+            <button class="btn btn-outline recharge-btn">अभी रिचार्ज करें</button>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">
+            <h2>आज के भोजन</h2>
+            <span id="today-date-hi"></span>
+          </div>
+          <div class="card-body">
+            <div class="meal-toggle" id="breakfast-toggle-hi">
+              <div>
+                <h3>नाश्ता</h3>
+                <p>7:00 AM - 9:00 AM</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="meal-toggle" id="lunch-toggle-hi">
+              <div>
+                <h3>दोपहर का भोजन</h3>
+                <p>12:00 PM - 2:00 PM</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div class="meal-toggle" id="dinner-toggle-hi">
+              <div>
+                <h3>रात का खाना</h3>
+                <p>7:00 PM - 9:00 PM</p>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="card-footer">
+            <p><i class="fas fa-info-circle"></i> आप पिछले दिन शाम 8:00 बजे तक भोजन को चालू या बंद कर सकते हैं।</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>आज का मेनू</h2>
+          </div>
+          <div class="card-body">
+            <div class="meal-card">
+              <img src="https://source.unsplash.com/random/120x120/?breakfast,indian" alt="नाश्ता" class="meal-image">
+              <div class="meal-details">
+                <span class="meal-status delivered">8:15 AM पर डिलीवर किया गया</span>
+                <h3 class="meal-title">मसाला डोसा और सांबर</h3>
+                <p class="meal-description">दक्षिण भारतीय क्रिस्पी डोसा सांबर और नारियल चटनी के साथ परोसा जाता है।</p>
+                <div class="meal-meta">
+                  <span><i class="fas fa-utensils"></i> नाश्ता</span>
+                  <span><i class="fas fa-leaf"></i> शाकाहारी</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="meal-card">
+              <img src="https://source.unsplash.com/random/120x120/?lunch,indian" alt="दोपहर का भोजन" class="meal-image">
+              <div class="meal-details">
+                <span class="meal-status scheduled">12:30 PM के लिए निर्धारित</span>
+                <h3 class="meal-title">पनीर बटर मसाला और नान</h3>
+                <p class="meal-description">समृद्ध टमाटर ग्रेवी में पनीर बटर नान के साथ परोसा जाता है।</p>
+                <div class="meal-meta">
+                  <span><i class="fas fa-utensils"></i> दोपहर का भोजन</span>
+                  <span><i class="fas fa-leaf"></i> शाकाहारी</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="meal-card">
+              <img src="https://source.unsplash.com/random/120x120/?dinner,indian" alt="रात का खाना" class="meal-image">
+              <div class="meal-details">
+                <span class="meal-status scheduled">8:00 PM के लिए निर्धारित</span>
+                <h3 class="meal-title">चिकन बिरयानी</h3>
+                <p class="meal-description">सुगंधित बासमती चावल कोमल चिकन के टुकड़े और सुगंधित मसालों के साथ पकाया जाता है।</p>
+                <div class="meal-meta">
+                  <span><i class="fas fa-utensils"></i> रात का खाना</span>
+                  <span><i class="fas fa-drumstick-bite"></i> मांसाहारी</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in, redirect if not
+      if (localStorage.getItem('dubbaBayLoggedIn') !== 'true') {
+        window.location.href = '/Login/login.html';
+        return;
+      }
+
+      // Set current date
+      const today = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+      document.getElementById('today-date').textContent = today.toLocaleDateString('en-US', options);
+      document.getElementById('today-date-hi').textContent = today.toLocaleDateString('hi-IN', options);
+
+      // Language switching functionality
+      const langButtons = document.querySelectorAll('.language-switcher button');
+      const langContents = document.querySelectorAll('.lang-content');
+
+      langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+
+          // Update active button
+          langButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+
+          // Show selected language content
+          langContents.forEach(content => {
+            if (content.id === `content-${lang}`) {
+              content.style.display = 'block';
+            } else {
+              content.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Meal toggle functionality
+      // Get the current hour
+      const currentHour = today.getHours();
+
+      // Disable toggles based on time (after 8 PM previous day until delivery)
+      const breakfastToggleEn = document.querySelector('#breakfast-toggle input');
+      const lunchToggleEn = document.querySelector('#lunch-toggle input');
+      const dinnerToggleEn = document.querySelector('#dinner-toggle input');
+
+      const breakfastToggleHi = document.querySelector('#breakfast-toggle-hi input');
+      const lunchToggleHi = document.querySelector('#lunch-toggle-hi input');
+      const dinnerToggleHi = document.querySelector('#dinner-toggle-hi input');
+
+      // For demo purposes, disable toggles based on time
+      if (currentHour >= 7) {
+        // Disable breakfast toggle after 7 AM
+        breakfastToggleEn.disabled = true;
+        breakfastToggleEn.parentElement.parentElement.classList.add('meal-disabled');
+
+        breakfastToggleHi.disabled = true;
+        breakfastToggleHi.parentElement.parentElement.classList.add('meal-disabled');
+      }
+
+      if (currentHour >= 12) {
+        // Disable lunch toggle after 12 PM
+        lunchToggleEn.disabled = true;
+        lunchToggleEn.parentElement.parentElement.classList.add('meal-disabled');
+
+        lunchToggleHi.disabled = true;
+        lunchToggleHi.parentElement.parentElement.classList.add('meal-disabled');
+      }
+
+      // Sync toggle states between languages
+      breakfastToggleEn.addEventListener('change', function() {
+        breakfastToggleHi.checked = this.checked;
+      });
+
+      breakfastToggleHi.addEventListener('change', function() {
+        breakfastToggleEn.checked = this.checked;
+      });
+
+      lunchToggleEn.addEventListener('change', function() {
+        lunchToggleHi.checked = this.checked;
+      });
+
+      lunchToggleHi.addEventListener('change', function() {
+        lunchToggleEn.checked = this.checked;
+      });
+
+      dinnerToggleEn.addEventListener('change', function() {
+        dinnerToggleHi.checked = this.checked;
+      });
+
+      dinnerToggleHi.addEventListener('change', function() {
+        dinnerToggleEn.checked = this.checked;
+      });
+
+      // Handle logout
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        localStorage.removeItem('dubbaBayLoggedIn');
+        localStorage.removeItem('dubbaBayUserRole');
+        window.location.href = 'login.html';
+      });
+
+      // Mobile menu toggle
+      const menuToggle = document.createElement('div');
+      menuToggle.classList.add('menu-toggle');
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      document.body.appendChild(menuToggle);
+
+      menuToggle.addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

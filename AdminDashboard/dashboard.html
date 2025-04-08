@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Dubba Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <span class="text-primary">Dubba</span> Admin
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item active" data-target="overview">
+          <i class="fas fa-chart-line"></i> Overview
+        </div>
+        <div class="sidebar-menu-item" data-target="customers">
+          <i class="fas fa-users"></i> Customers
+        </div>
+        <div class="sidebar-menu-item" data-target="menu">
+          <i class="fas fa-utensils"></i> Menu Management
+        </div>
+        <div class="sidebar-menu-item" data-target="orders">
+          <i class="fas fa-shopping-bag"></i> Orders
+        </div>
+        <div class="sidebar-menu-item" data-target="delivery">
+          <i class="fas fa-truck"></i> Delivery
+        </div>
+        <div class="sidebar-menu-item" data-target="reports">
+          <i class="fas fa-chart-bar"></i> Reports
+        </div>
+        <div class="sidebar-menu-item" data-target="settings">
+          <i class="fas fa-cog"></i> Settings
+        </div>
+        <div class="sidebar-menu-item" id="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="language-switcher">
+        <button type="button" class="active" data-lang="en">English</button>
+        <span>|</span>
+        <button type="button" data-lang="hi">हिन्दी</button>
+      </div>
+
+      <!-- Page content will be loaded here -->
+      <div id="page-content"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in and is admin
+      if (localStorage.getItem('dubbaBayLoggedIn') !== 'true' ||
+          localStorage.getItem('dubbaBayUserRole') !== 'admin') {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Navigation handling
+      const menuItems = document.querySelectorAll('.sidebar-menu-item[data-target]');
+      const pageContent = document.getElementById('page-content');
+
+      // Load overview by default
+      loadPage('overview');
+
+      menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+          // Remove active class from all items
+          menuItems.forEach(i => i.classList.remove('active'));
+
+          // Add active class to clicked item
+          this.classList.add('active');
+
+          // Load the page content
+          const page = this.getAttribute('data-target');
+          loadPage(page);
+        });
+      });
+
+      function loadPage(page) {
+        // In a real application, this would fetch HTML from server
+        // For demo, we'll hardcode the content
+
+        let content = '';
+
+        switch(page) {
+          case 'overview':
+            content = getOverviewContent();
+            break;
+          case 'customers':
+            content = getCustomersContent();
+            break;
+          case 'menu':
+            content = getMenuContent();
+            break;
+          case 'settings':
+            content = getSettingsContent();
+            break;
+          // Add more cases for other pages
+          default:
+            content = `<h2>Content for ${page} page coming soon</h2>`;
+        }
+
+        pageContent.innerHTML = content;
+        initPageScripts(page);
+      }
+
+      // Handle logout
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        localStorage.removeItem('dubbaBayLoggedIn');
+        localStorage.removeItem('dubbaBayUserRole');
+        window.location.href = '/Login/login.html';
+      });
+
+      // Mobile menu toggle
+      const menuToggle = document.createElement('div');
+      menuToggle.classList.add('menu-toggle');
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      document.body.appendChild(menuToggle);
+
+      menuToggle.addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+      });
+    });
+
+    // Define page content functions
+    function getOverviewContent() {
+      return `
+        <div class="content-header">
+          <h1 class="content-title">Dashboard Overview</h1>
+        </div>
+
+        <div class="dashboard-stats">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body">
+                  <h3>Active Customers</h3>
+                  <h2 class="text-primary">247</h2>
+                  <p class="text-success"><i class="fas fa-arrow-up"></i> 12% from last month</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body">
+                  <h3>Today's Meals</h3>
+                  <h2 class="text-primary">532</h2>
+                  <p class="text-gray">Breakfast: 178 | Lunch: 202 | Dinner: 152</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body">
+                  <h3>Balance Exhausted</h3>
+                  <h2 class="text-danger">18</h2>
+                  <p class="text-gray">Customers with low balance</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body">
+                  <h3>Revenue (Monthly)</h3>
+                  <h2 class="text-primary">₹87,500</h2>
+                  <p class="text-success"><i class="fas fa-arrow-up"></i> 8% from last month</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h2>Recent Orders</h2>
+              </div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Customer</th>
+                        <th>Order Type</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Rajiv Kumar</td>
+                        <td>Monthly Plan</td>
+                        <td>01 Apr 2025</td>
+                        <td>₹1,500</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                      </tr>
+                      <tr>
+                        <td>Priya Singh</td>
+                        <td>Weekly Plan</td>
+                        <td>31 Mar 2025</td>
+                        <td>₹600</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                      </tr>
+                      <tr>
+                        <td>Aakash Sharma</td>
+                        <td>Monthly Plan</td>
+                        <td>30 Mar 2025</td>
+                        <td>₹1,500</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                      </tr>
+                      <tr>
+                        <td>Neha Joshi</td>
+                        <td>Single Meal</td>
+                        <td>30 Mar 2025</td>
+                        <td>₹150</td>
+                        <td><span class="badge badge-gray">Delivered</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header">
+                <h2>Customer Categories</h2>
+              </div>
+              <div class="card-body">
+                <ul class="list-group">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Active
+                    <span class="badge badge-primary">186</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Meal Off (< 3 days)
+                    <span class="badge badge-warning">43</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    TNA (> 3 days)
+                    <span class="badge badge-accent">32</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Balance Exhausted
+                    <span class="badge badge-danger">18</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Discontinued
+                    <span class="badge badge-gray">12</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getCustomersContent() {
+      return `
+        <div class="content-header">
+          <h1 class="content-title">Customer Management</h1>
+          <button class="btn btn-primary">Add New Customer</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Customer List</h2>
+            <div class="filter-options">
+              <select class="form-control">
+                <option value="all">All Customers</option>
+                <option value="active">Active</option>
+                <option value="meal-off">Meal Off (< 3 days)</option>
+                <option value="tna">TNA (> 3 days)</option>
+                <option value="balance-exhausted">Balance Exhausted</option>
+                <option value="discontinued">Discontinued</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Customer ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Subscription</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>C001</td>
+                    <td>Rajiv Kumar</td>
+                    <td>9876543210</td>
+                    <td>Monthly Plan</td>
+                    <td>16 meals</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-envelope"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>C002</td>
+                    <td>Priya Singh</td>
+                    <td>9876543211</td>
+                    <td>Weekly Plan</td>
+                    <td>5 meals</td>
+                    <td><span class="badge badge-warning">Meal Off</span></td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-envelope"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>C003</td>
+                    <td>Aakash Sharma</td>
+                    <td>9876543212</td>
+                    <td>Monthly Plan</td>
+                    <td>22 meals</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-envelope"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>C004</td>
+                    <td>Neha Joshi</td>
+                    <td>9876543213</td>
+                    <td>Monthly Plan</td>
+                    <td>0 meals</td>
+                    <td><span class="badge badge-danger">Balance Exhausted</span></td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-envelope"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getMenuContent() {
+      return `
+        <div class="content-header">
+          <h1 class="content-title">Menu Management</h1>
+          <button class="btn btn-primary">Add New Item</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Menu Items</h2>
+            <div class="filter-options">
+              <select class="form-control">
+                <option value="all">All Items</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+              </select>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Item ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>M001</td>
+                    <td>Masala Dosa</td>
+                    <td>Breakfast</td>
+                    <td>Vegetarian</td>
+                    <td>₹80</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>M002</td>
+                    <td>Paneer Butter Masala</td>
+                    <td>Lunch, Dinner</td>
+                    <td>Vegetarian</td>
+                    <td>₹120</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>M003</td>
+                    <td>Chicken Biryani</td>
+                    <td>Lunch, Dinner</td>
+                    <td>Non-Vegetarian</td>
+                    <td>₹150</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>M004</td>
+                    <td>Idli Sambar</td>
+                    <td>Breakfast</td>
+                    <td>Vegetarian</td>
+                    <td>₹60</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getSettingsContent() {
+      return `
+        <div class="content-header">
+          <h1 class="content-title">Business Settings</h1>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Business Information</h2>
+          </div>
+          <div class="card-body">
+            <form id="business-info-form">
+              <div class="form-group">
+                <label for="business-name">Business Name</label>
+                <input type="text" id="business-name" class="form-control" value="Dubba Services">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-email">Contact Email</label>
+                <input type="email" id="contact-email" class="form-control" value="contact@dubbaservices.com">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-phone">Contact Phone</label>
+                <input type="tel" id="contact-phone" class="form-control" value="+91 9876543210">
+              </div>
+
+              <div class="form-group">
+                <label for="business-address">Business Address</label>
+                <textarea id="business-address" class="form-control" rows="3">123 Main Street, Mumbai, Maharashtra 400001</textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="business-description">Business Description</label>
+                <textarea id="business-description" class="form-control" rows="3">Dubba Services provides fresh, homemade meals delivered to your doorstep daily. We offer subscription plans for breakfast, lunch, and dinner.</textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h2>Subscription Plans</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Plan Name</th>
+                    <th>Duration</th>
+                    <th>Meals</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Daily Plan</td>
+                    <td>1 Day</td>
+                    <td>1 Meal</td>
+                    <td>₹90</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weekly Plan</td>
+                    <td>7 Days</td>
+                    <td>7 Meals</td>
+                    <td>₹600</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Monthly Plan</td>
+                    <td>30 Days</td>
+                    <td>30 Meals</td>
+                    <td>₹2,500</td>
+                    <td>
+                      <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn-outline mt-3">Add New Plan</button>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h2>Terms and Conditions</h2>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <textarea id="terms-conditions" class="form-control" rows="10">
+1. Subscription Plans:
+   - All subscription plans are prepaid.
+   - Monthly plans are valid for 30 days from the date of subscription.
+   - Weekly plans are valid for 7 days from the date of subscription.
+
+2. Meal Delivery:
+   - Breakfast will be delivered between 7:00 AM and 9:00 AM.
+   - Lunch will be delivered between 12:00 PM and 2:00 PM.
+   - Dinner will be delivered between 7:00 PM and 9:00 PM.
+   - Customers must be available to receive the meal during these time windows.
+
+3. Cancellation Policy:
+   - Meals can be turned off until 8:00 PM the previous day.
+   - No refunds will be provided for meals that are not consumed.
+   - Customers can pause their subscription for travel or other reasons.
+
+4. Payment:
+   - We accept online payments and cash.
+   - Subscription renewal reminders will be sent when balance is low.
+   - Meal delivery will stop when the balance is exhausted.
+
+5. Customer Responsibilities:
+   - Customers must ensure the delivery address is accurate.
+   - Empty containers should be returned to delivery person the next day.
+   - Customers should report any issues or concerns within 2 hours of delivery.
+              </textarea>
+            </div>
+            <button class="btn btn-primary mt-3">Save Changes</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function initPageScripts(page) {
+      // This function would initialize any scripts needed for the loaded page
+      switch(page) {
+        case 'settings':
+          // For demo, we'll add a simple form submission handler
+          const businessForm = document.getElementById('business-info-form');
+          if (businessForm) {
+            businessForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              alert('Business information updated successfully!');
+            });
+          }
+          break;
+        // Add more cases for other pages
+      }
+    }
+  </script>
+</body>
+</html>

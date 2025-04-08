@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Dubba Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-image"></div>
+    <div class="auth-form">
+      <div class="language-switcher">
+        <button type="button" class="active" data-lang="en">English</button>
+        <span>|</span>
+        <button type="button" data-lang="hi">हिन्दी</button>
+      </div>
+
+      <div id="content-en" class="lang-content active">
+        <h2>Welcome to Dubba Services</h2>
+        <p>Login to access your meal plans and orders.</p>
+
+        <div id="login-alert" class="alert alert-danger" style="display: none;">
+          Invalid email or password. Please try again.
+        </div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+          </div>
+
+          <div class="form-group text-right">
+            <a href="#" class="forgot-password">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="/Signup/signup.html">Sign Up</a></p>
+        </div>
+      </div>
+
+      <div id="content-hi" class="lang-content" style="display: none;">
+        <h2>दुब्बा सेवाओं में आपका स्वागत है</h2>
+        <p>अपने भोजन योजनाओं और आदेशों तक पहुंचने के लिए लॉगिन करें।</p>
+
+        <div id="login-alert-hi" class="alert alert-danger" style="display: none;">
+          अमान्य ईमेल या पासवर्ड। कृपया पुन: प्रयास करें।
+        </div>
+
+        <form id="login-form-hi">
+          <div class="form-group">
+            <label for="email-hi">ईमेल</label>
+            <input type="email" id="email-hi" class="form-control" placeholder="अपना ईमेल दर्ज करें" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password-hi">पासवर्ड</label>
+            <input type="password" id="password-hi" class="form-control" placeholder="अपना पासवर्ड दर्ज करें" required>
+          </div>
+
+          <div class="form-group text-right">
+            <a href="#" class="forgot-password">पासवर्ड भूल गए?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">लॉगिन</button>
+        </form>
+
+        <div class="auth-footer">
+          <p>खाता नहीं है? <a href="/Signup/signup.html">साइन अप करें</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Language switching functionality
+      const langButtons = document.querySelectorAll('.language-switcher button');
+      const langContents = document.querySelectorAll('.lang-content');
+
+      langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+
+          // Update active button
+          langButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+
+          // Show selected language content
+          langContents.forEach(content => {
+            if (content.id === `content-${lang}`) {
+              content.style.display = 'block';
+            } else {
+              content.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Form submission for English
+      const loginForm = document.getElementById('login-form');
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Simple validation - in real app, would call API
+        if (email === 'admin@dubba.com' && password === 'admin123') {
+          localStorage.setItem('dubbaBayLoggedIn', 'true');
+          localStorage.setItem('dubbaBayUserRole', 'admin');
+          window.location.href = '/AdminDashboard/dashboard.html';
+        } else if (email === 'user@dubba.com' && password === 'user123') {
+          localStorage.setItem('dubbaBayLoggedIn', 'true');
+          localStorage.setItem('dubbaBayUserRole', 'customer');
+          window.location.href = '/CustomerDashboard/customer-dashboard.html';
+        } else if (email === 'delivery@dubba.com' && password === 'delivery123') {
+          localStorage.setItem('dubbaBayLoggedIn', 'true');
+          localStorage.setItem('dubbaBayUserRole', 'delivery');
+          window.location.href = '/DeliveryDashboard/delivery-dashboard.html';
+        } else {
+          document.getElementById('login-alert').style.display = 'block';
+        }
+      });
+
+      // Form submission for Hindi
+      const loginFormHi = document.getElementById('login-form-hi');
+      loginFormHi.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email-hi').value;
+        const password = document.getElementById('password-hi').value;
+
+        // Simple validation - same as English
+        if (email === 'admin@dubba.com' && password === 'admin123') {
+          localStorage.setItem('dubbaBayLoggedIn', 'true');
+          localStorage.setItem('dubbaBayUserRole', 'admin');
+          window.location.href = '/dashboard.html';
+        } else if (email === 'user@dubba.com' && password === 'user123') {
+          localStorage.setItem('dubbaBayLoggedIn', 'true');
+          localStorage.setItem('dubbaBayUserRole', 'customer');
+          window.location.href = '/customer-dashboard.html';
+        } else if (email === 'delivery@dubba.com' && password === 'delivery123') {
+          localStorage.setItem('dubbaBayLoggedIn', 'true');
+          localStorage.setItem('dubbaBayUserRole', 'delivery');
+          window.location.href = '/delivery-dashboard.html';
+        } else {
+          document.getElementById('login-alert-hi').style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

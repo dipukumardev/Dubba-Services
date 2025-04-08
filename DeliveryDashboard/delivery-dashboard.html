@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Dashboard - Dubba Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .delivery-card {
+      border: 1px solid var(--gray-light-color);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .delivery-card-header {
+      padding: 15px;
+      background-color: var(--gray-light-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .delivery-card-body {
+      padding: 0;
+    }
+
+    .customer-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid var(--gray-light-color);
+    }
+
+    .customer-info {
+      flex: 1;
+    }
+
+    .customer-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .customer-address {
+      color: var(--gray-color);
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .customer-meal {
+      font-size: 14px;
+    }
+
+    .status-toggle {
+      margin-left: 15px;
+    }
+
+    .status-toggle .btn {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    .route-map {
+      height: 400px;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .delivery-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 15px;
+      flex: 1;
+      margin-right: 15px;
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+
+    .stat-card:last-child {
+      margin-right: 0;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 10px 0;
+    }
+
+    .stat-label {
+      color: var(--gray-color);
+      font-size: 14px;
+    }
+
+    .area-filter {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <span class="text-primary">Dubba</span> Delivery
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-menu-item active">
+          <i class="fas fa-route"></i> Today's Route
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-utensils"></i> Meal Deliveries
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-history"></i> Delivery History
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-map-marker-alt"></i> My Areas
+        </div>
+        <div class="sidebar-menu-item">
+          <i class="fas fa-cog"></i> Settings
+        </div>
+        <div class="sidebar-menu-item" id="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="language-switcher">
+        <button type="button" class="active" data-lang="en">English</button>
+        <span>|</span>
+        <button type="button" data-lang="hi">हिन्दी</button>
+      </div>
+
+      <div id="content-en" class="lang-content active">
+        <div class="content-header">
+          <h1 class="content-title">Today's Deliveries</h1>
+          <span id="today-date"></span>
+        </div>
+
+        <div class="delivery-stats">
+          <div class="stat-card">
+            <div class="stat-label">Total Deliveries</div>
+            <div class="stat-value text-primary">24</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Completed</div>
+            <div class="stat-value text-success">16</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value text-warning">8</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Delivery Time</div>
+            <div class="stat-value">12:30 - 2:00 PM</div>
+            <div class="stat-label">Current Meal: Lunch</div>
+          </div>
+        </div>
+
+        <div class="area-filter">
+          <select class="form-control">
+            <option value="all">All Areas</option>
+            <option value="south">South Mumbai</option>
+            <option value="north">North Mumbai</option>
+            <option value="central">Central Mumbai</option>
+          </select>
+        </div>
+
+        <div class="route-map">
+          <p><i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 15px;"></i><br>Map with delivery route will display here<br>(Integrated with Google Maps in production)</p>
+        </div>
+
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <h3>South Mumbai - Lunch Deliveries</h3>
+            <span class="badge badge-warning">4 Pending</span>
+          </div>
+          <div class="delivery-card-body">
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Rajiv Kumar</div>
+                <div class="customer-address">101, Sea View Apartments, Marine Drive, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-primary">Vegetarian</span> Paneer Butter Masala with Naan</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-success"><i class="fas fa-check"></i> Delivered</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Priya Singh</div>
+                <div class="customer-address">202, Horizon Tower, Cuffe Parade, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-primary">Vegetarian</span> Paneer Tikka Masala with Roti</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-success"><i class="fas fa-check"></i> Delivered</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Aakash Sharma</div>
+                <div class="customer-address">303, Sea Shell Building, Colaba, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-danger">Non-Vegetarian</span> Chicken Biryani</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> Mark Delivered</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Neha Joshi</div>
+                <div class="customer-address">404, Coastal Heights, Nariman Point, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-primary">Vegetarian</span> Dal Makhani with Jeera Rice</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> Mark Delivered</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <h3>Central Mumbai - Lunch Deliveries</h3>
+            <span class="badge badge-warning">4 Pending</span>
+          </div>
+          <div class="delivery-card-body">
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Vikram Malhotra</div>
+                <div class="customer-address">505, Sunshine Apartments, Dadar, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-danger">Non-Vegetarian</span> Butter Chicken with Naan</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> Mark Delivered</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Pooja Desai</div>
+                <div class="customer-address">606, Urban Heights, Parel, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-primary">Vegetarian</span> Palak Paneer with Roti</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> Mark Delivered</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Rahul Saxena</div>
+                <div class="customer-address">707, City Towers, Lower Parel, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-danger">Non-Vegetarian</span> Fish Curry with Rice</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> Mark Delivered</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">Anita Gupta</div>
+                <div class="customer-address">808, Metro View, Worli, Mumbai</div>
+                <div class="customer-meal"><span class="badge badge-primary">Vegetarian</span> Chole Bhature</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> Mark Delivered</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="content-hi" class="lang-content" style="display: none;">
+        <div class="content-header">
+          <h1 class="content-title">आज की डिलीवरी</h1>
+          <span id="today-date-hi"></span>
+        </div>
+
+        <div class="delivery-stats">
+          <div class="stat-card">
+            <div class="stat-label">कुल डिलीवरी</div>
+            <div class="stat-value text-primary">24</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">पूर्ण की गई</div>
+            <div class="stat-value text-success">16</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">बाकी</div>
+            <div class="stat-value text-warning">8</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">डिलीवरी समय</div>
+            <div class="stat-value">12:30 - 2:00 PM</div>
+            <div class="stat-label">वर्तमान भोजन: दोपहर का भोजन</div>
+          </div>
+        </div>
+
+        <div class="area-filter">
+          <select class="form-control">
+            <option value="all">सभी क्षेत्र</option>
+            <option value="south">दक्षिण मुंबई</option>
+            <option value="north">उत्तर मुंबई</option>
+            <option value="central">मध्य मुंबई</option>
+          </select>
+        </div>
+
+        <div class="route-map">
+          <p><i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 15px;"></i><br>डिलीवरी मार्ग के साथ मानचित्र यहां प्रदर्शित होगा<br>(उत्पादन में Google Maps के साथ एकीकृत)</p>
+        </div>
+
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <h3>दक्षिण मुंबई - दोपहर का भोजन डिलीवरी</h3>
+            <span class="badge badge-warning">4 बाकी</span>
+          </div>
+          <div class="delivery-card-body">
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">राजीव कुमार</div>
+                <div class="customer-address">101, सी व्यू अपार्टमेंट्स, मरीन ड्राइव, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-primary">शाकाहारी</span> पनीर बटर मसाला और नान</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-success"><i class="fas fa-check"></i> डिलीवर किया गया</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">प्रिया सिंह</div>
+                <div class="customer-address">202, होराइजन टावर, कफ परेड, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-primary">शाकाहारी</span> पनीर टिक्का मसाला और रोटी</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-success"><i class="fas fa-check"></i> डिलीवर किया गया</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">आकाश शर्मा</div>
+                <div class="customer-address">303, सी शेल बिल्डिंग, कोलाबा, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-danger">मांसाहारी</span> चिकन बिरयानी</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> डिलीवर मार्क करें</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">नेहा जोशी</div>
+                <div class="customer-address">404, कोस्टल हाइट्स, नरीमन पॉइंट, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-primary">शाकाहारी</span> दाल मखनी और जीरा चावल</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> डिलीवर मार्क करें</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="delivery-card">
+          <div class="delivery-card-header">
+            <h3>मध्य मुंबई - दोपहर का भोजन डिलीवरी</h3>
+            <span class="badge badge-warning">4 बाकी</span>
+          </div>
+          <div class="delivery-card-body">
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">विक्रम मल्होत्रा</div>
+                <div class="customer-address">505, सनशाइन अपार्टमेंट्स, दादर, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-danger">मांसाहारी</span> बटर चिकन और नान</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> डिलीवर मार्क करें</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">पूजा देसाई</div>
+                <div class="customer-address">606, अर्बन हाइट्स, परेल, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-primary">शाकाहारी</span> पालक पनीर और रोटी</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> डिलीवर मार्क करें</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">राहुल सक्सेना</div>
+                <div class="customer-address">707, सिटी टावर्स, लोअर परेल, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-danger">मांसाहारी</span> फिश करी और चावल</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> डिलीवर मार्क करें</button>
+              </div>
+            </div>
+
+            <div class="customer-item">
+              <div class="customer-info">
+                <div class="customer-name">अनीता गुप्ता</div>
+                <div class="customer-address">808, मेट्रो व्यू, वरली, मुंबई</div>
+                <div class="customer-meal"><span class="badge badge-primary">शाकाहारी</span> छोले भटूरे</div>
+              </div>
+              <div class="status-toggle">
+                <button class="btn btn-primary"><i class="fas fa-truck"></i> डिलीवर मार्क करें</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in and is delivery personnel
+      if (localStorage.getItem('dubbaBayLoggedIn') !== 'true' ||
+          localStorage.getItem('dubbaBayUserRole') !== 'delivery') {
+        window.location.href = '/Login/login.html';
+        return;
+      }
+
+      // Set current date
+      const today = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+      document.getElementById('today-date').textContent = today.toLocaleDateString('en-US', options);
+      document.getElementById('today-date-hi').textContent = today.toLocaleDateString('hi-IN', options);
+
+      // Language switching functionality
+      const langButtons = document.querySelectorAll('.language-switcher button');
+      const langContents = document.querySelectorAll('.lang-content');
+
+      langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+
+          // Update active button
+          langButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+
+          // Show selected language content
+          langContents.forEach(content => {
+            if (content.id === `content-${lang}`) {
+              content.style.display = 'block';
+            } else {
+              content.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Delivery status toggle buttons
+      const deliveryButtons = document.querySelectorAll('.btn-primary');
+
+      deliveryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Change button appearance
+          this.classList.remove('btn-primary');
+          this.classList.add('btn-success');
+          this.innerHTML = '<i class="fas fa-check"></i> Delivered';
+
+          // Get customer info
+          const customerItem = this.closest('.customer-item');
+          const customerName = customerItem.querySelector('.customer-name').textContent;
+
+          // Show toast notification (in production, would send to API too)
+          alert(`Meal delivered to ${customerName}`);
+        });
+      });
+
+      // Handle logout
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        localStorage.removeItem('dubbaBayLoggedIn');
+        localStorage.removeItem('dubbaBayUserRole');
+        window.location.href = 'login.html';
+      });
+
+      // Mobile menu toggle
+      const menuToggle = document.createElement('div');
+      menuToggle.classList.add('menu-toggle');
+      menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+      document.body.appendChild(menuToggle);
+
+      menuToggle.addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

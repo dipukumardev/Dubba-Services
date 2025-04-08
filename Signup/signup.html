@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Dubba Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-image"></div>
+    <div class="auth-form">
+      <div class="language-switcher">
+        <button type="button" class="active" data-lang="en">English</button>
+        <span>|</span>
+        <button type="button" data-lang="hi">हिन्दी</button>
+      </div>
+
+      <div id="content-en" class="lang-content active">
+        <h2>Create Your Account</h2>
+        <p>Register for Dubba Services and enjoy delicious meals delivered to your doorstep.</p>
+
+        <div id="signup-alert" class="alert alert-success" style="display: none;">
+          Account created successfully! Redirecting to login...
+        </div>
+
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" class="form-control" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <textarea id="address" class="form-control" rows="3" placeholder="Enter your delivery address" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+          </div>
+
+          <div class="form-group">
+            <input type="checkbox" id="terms" required>
+            <label for="terms" style="display: inline-block; margin-left: 8px;">
+              I agree to the <a href="#">Terms and Conditions</a>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Already have an account? <a href="/Login/login.html">Login</a></p>
+        </div>
+      </div>
+
+      <div id="content-hi" class="lang-content" style="display: none;">
+        <h2>अपना खाता बनाएँ</h2>
+        <p>दुब्बा सेवाओं के लिए पंजीकरण करें और अपने दरवाजे पर स्वादिष्ट भोजन का आनंद लें।</p>
+
+        <div id="signup-alert-hi" class="alert alert-success" style="display: none;">
+          खाता सफलतापूर्वक बनाया गया! लॉगिन पर पुनर्निर्देशित किया जा रहा है...
+        </div>
+
+        <form id="signup-form-hi">
+          <div class="form-group">
+            <label for="fullname-hi">पूरा नाम</label>
+            <input type="text" id="fullname-hi" class="form-control" placeholder="अपना पूरा नाम दर्ज करें" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email-hi">ईमेल</label>
+            <input type="email" id="email-hi" class="form-control" placeholder="अपना ईमेल दर्ज करें" required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone-hi">फोन नंबर</label>
+            <input type="tel" id="phone-hi" class="form-control" placeholder="अपना फोन नंबर दर्ज करें" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address-hi">डिलीवरी पता</label>
+            <textarea id="address-hi" class="form-control" rows="3" placeholder="अपना डिलीवरी पता दर्ज करें" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="password-hi">पासवर्ड</label>
+            <input type="password" id="password-hi" class="form-control" placeholder="एक पासवर्ड बनाएं" required>
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password-hi">पासवर्ड की पुष्टि करें</label>
+            <input type="password" id="confirm-password-hi" class="form-control" placeholder="अपने पासवर्ड की पुष्टि करें" required>
+          </div>
+
+          <div class="form-group">
+            <input type="checkbox" id="terms-hi" required>
+            <label for="terms-hi" style="display: inline-block; margin-left: 8px;">
+              मैं <a href="#">नियम और शर्तों</a> से सहमत हूँ
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">साइन अप करें</button>
+        </form>
+
+        <div class="auth-footer">
+          <p>क्या आपका पहले से एक खाता है? <a href="/Login/login.html">लॉगिन करें</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Language switching functionality
+      const langButtons = document.querySelectorAll('.language-switcher button');
+      const langContents = document.querySelectorAll('.lang-content');
+
+      langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+
+          // Update active button
+          langButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+
+          // Show selected language content
+          langContents.forEach(content => {
+            if (content.id === `content-${lang}`) {
+              content.style.display = 'block';
+            } else {
+              content.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Form submission for English
+      const signupForm = document.getElementById('signup-form');
+      signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        // Simple password validation
+        if (password !== confirmPassword) {
+          alert('Passwords do not match!');
+          return;
+        }
+
+        // Display success message and redirect after a delay
+        document.getElementById('signup-alert').style.display = 'block';
+
+        // In a real app, we would send data to the API here
+
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 3000);
+      });
+
+      // Form submission for Hindi
+      const signupFormHi = document.getElementById('signup-form-hi');
+      signupFormHi.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const password = document.getElementById('password-hi').value;
+        const confirmPassword = document.getElementById('confirm-password-hi').value;
+
+        // Simple password validation
+        if (password !== confirmPassword) {
+          alert('पासवर्ड मेल नहीं खाते!');
+          return;
+        }
+
+        // Display success message and redirect after a delay
+        document.getElementById('signup-alert-hi').style.display = 'block';
+
+        // In a real app, we would send data to the API here
+
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 3000);
+      });
+    });
+  </script>
+</body>
+</html>
